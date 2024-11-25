@@ -1,0 +1,39 @@
+name: Playwright Test CI
+
+on:
+  push:
+    branches:
+      - main  # Trigger on push to the main branch (or change it to your preferred branch)
+  pull_request:
+    branches:
+      - main  # Trigger on pull requests to the main branch
+
+jobs:
+  test:
+    runs-on: ubuntu-latest  # Use the latest version of Ubuntu for the runner
+
+    steps:
+      # Step 1: Checkout the code from the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Node.js (latest LTS version)
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'  # Specify the version of Node.js you want to use
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Step 4: Run Playwright tests
+      - name: Run Playwright tests
+        run: npm test
+
+      # Optional: Upload test results if you want to see detailed reports
+      - name: Upload Playwright Test Results
+        uses: actions/upload-artifact@v3
+        with:
+          name: playwright-results
+          path: test-results
